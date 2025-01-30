@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alphabet Position Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        #alphabet {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        #message {
+            font-size: 20px;
+            margin-top: 20px;
+            color: green;
+        }
+        input {
+            padding: 10px;
+            font-size: 16px;
+            width: 50px;
+            margin-right: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Alphabet Position Quiz</h1>
+    <div id="alphabet">A</div>
+    <input type="number" id="userInput" placeholder="Enter position" />
+    <button onclick="checkAnswer()">Submit</button>
+    <div id="message"></div>
+
+    <script>
+        // Array of alphabets
+        const alphabets = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+
+        // Function to generate a random letter
+        function getRandomLetter() {
+            const randomIndex = Math.floor(Math.random() * alphabets.length);
+            return { letter: alphabets[randomIndex], position: randomIndex + 1 };
+        }
+
+        let currentLetterInfo = getRandomLetter();
+
+        // Display the current letter
+        document.getElementById('alphabet').textContent = currentLetterInfo.letter;
+
+        // Function to check the user's answer
+        function checkAnswer() {
+            const userAnswer = parseInt(document.getElementById('userInput').value);
+            const messageElement = document.getElementById('message');
+
+            if (userAnswer === currentLetterInfo.position) {
+                messageElement.textContent = "Correct!";
+                messageElement.style.color = "green";
+
+                // Get a new random letter
+                currentLetterInfo = getRandomLetter();
+                document.getElementById('alphabet').textContent = currentLetterInfo.letter;
+                document.getElementById('userInput').value = ''; // Clear input
+            } else {
+                messageElement.textContent = "Wrong! Try again.";
+                messageElement.style.color = "red";
+            }
+        }
+    </script>
+
+</body>
+</html>
