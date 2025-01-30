@@ -5,31 +5,119 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alphabet Position Quiz</title>
     <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            color: #fff;
             text-align: center;
-            margin-top: 50px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
-        #alphabet {
-            font-size: 48px;
-            font-weight: bold;
+
+        h1 {
+            font-size: 2.5rem;
             margin-bottom: 20px;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
         }
-        #message {
-            font-size: 20px;
-            margin-top: 20px;
-            color: green;
+
+        #alphabet {
+            font-size: 8rem;
+            font-weight: bold;
+            margin-bottom: 30px;
+            animation: bounce 1s infinite alternate;
         }
-        input {
-            padding: 10px;
-            font-size: 16px;
-            width: 50px;
-            margin-right: 10px;
+
+        input[type="number"] {
+            width: 80px;
+            height: 40px;
+            font-size: 1.2rem;
+            text-align: center;
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease-in-out;
         }
+
+        input[type="number"]:focus {
+            outline: none;
+            transform: scale(1.1);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+        }
+
         button {
             padding: 10px 20px;
-            font-size: 16px;
+            font-size: 1.2rem;
+            margin-left: 10px;
+            border: none;
+            border-radius: 5px;
+            background: #ff6f61;
+            color: #fff;
             cursor: pointer;
+            transition: background 0.3s ease-in-out;
+        }
+
+        button:hover {
+            background: #ff3b2f;
+        }
+
+        #message {
+            font-size: 1.5rem;
+            margin-top: 20px;
+            opacity: 0;
+            animation: fadeIn 1s forwards;
+        }
+
+        .correct {
+            color: #4caf50;
+        }
+
+        .wrong {
+            color: #f44336;
+        }
+
+        /* Animations */
+        @keyframes bounce {
+            from {
+                transform: translateY(0);
+            }
+            to {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            #alphabet {
+                font-size: 6rem;
+            }
+
+            input[type="number"], button {
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
@@ -63,15 +151,23 @@
 
             if (userAnswer === currentLetterInfo.position) {
                 messageElement.textContent = "Correct!";
-                messageElement.style.color = "green";
+                messageElement.className = "correct";
+            } else {
+                messageElement.textContent = "Wrong! Try again.";
+                messageElement.className = "wrong";
+            }
 
+            // Add animation to the message
+            messageElement.style.opacity = 0;
+            setTimeout(() => {
+                messageElement.style.opacity = 1;
+            }, 10);
+
+            if (userAnswer === currentLetterInfo.position) {
                 // Get a new random letter
                 currentLetterInfo = getRandomLetter();
                 document.getElementById('alphabet').textContent = currentLetterInfo.letter;
                 document.getElementById('userInput').value = ''; // Clear input
-            } else {
-                messageElement.textContent = "Wrong! Try again.";
-                messageElement.style.color = "red";
             }
         }
     </script>
